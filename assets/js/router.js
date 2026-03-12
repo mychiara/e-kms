@@ -13,6 +13,8 @@ const Router = {
     laporan: "laporan",
     users: "users",
     user_form: "user_form",
+    posyandu_list: "posyandu_list",
+    posyandu_form: "posyandu_form",
     activity_logs: "activity_logs",
     pengaturan: "pengaturan",
     cek_kms: "cek_kms",
@@ -109,6 +111,7 @@ const Router = {
                         ? `
                     <li class="nav-label">Sistem</li>
                     <li><a href="#/users" class="nav-item ${page == "users" ? "active" : ""}"><i class="fas fa-user-shield"></i> Kelola User</a></li>
+                    <li><a href="#/posyandu_list" class="nav-item ${page == "posyandu_list" ? "active" : ""}"><i class="fas fa-map-location-dot"></i> Kelola Wilayah</a></li>
                     <li><a href="#/activity_logs" class="nav-item ${page == "activity_logs" ? "active" : ""}"><i class="fas fa-fingerprint"></i> Log Aktivitas</a></li>
                     `
                         : ""
@@ -134,7 +137,9 @@ const Router = {
                     <div class="user-profile">
                         <div style="text-align: right; line-height: 1.2;">
                             <div class="user-name">${user.name}</div>
-                            <div style="font-size: 0.7rem; color: var(--txt-muted); font-weight: 700; text-transform: uppercase;">${role}</div>
+                            <div style="font-size: 0.7rem; color: var(--txt-muted); font-weight: 700; text-transform: uppercase;">
+                                ${role}${user.posyandu ? ` &bull; ${user.posyandu}` : role === "admin" ? " &bull; Global" : ""}
+                            </div>
                         </div>
                         <div class="user-avatar">${user.name.charAt(0).toUpperCase()}</div>
                     </div>
@@ -142,9 +147,11 @@ const Router = {
                 
                 <div class="content-wrapper" id="page-content"></div>
                 
-                <footer class="main-footer">
-                    <div>&copy; ${new Date().getFullYear()} <span class="text-gradient" style="font-weight: 800;">Masandigital.com</span>. Seluruh hak cipta dilindungi.</div>
-                    <div style="font-size: 0.7rem; margin-top: 0.5rem; opacity: 0.6;">E-KMS Online v2.0 - Dashboard Monitoring Posyandu Digital</div>
+                <footer class="main-footer" style="background: #fff; border-top: 1px solid #f1f5f9; padding: 2.5rem; text-align: center; margin-top: 2rem; border-radius: 24px 24px 0 0; box-shadow: 0 -10px 40px rgba(0,0,0,0.02);">
+                    <div style="color: var(--txt-main); font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem;">
+                        &copy; ${new Date().getFullYear()} <span style="background: linear-gradient(135deg, var(--accent) 0%, #0ea5e9 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800;">Masandigital.com</span>
+                    </div>
+                    <div style="font-size: 0.8rem; color: var(--txt-muted); font-weight: 500; letter-spacing: 0.5px;">E-KMS Portal v3.0 &bull; Monitoring Kesehatan Balita Digital &bull; All Rights Reserved</div>
                 </footer>
             </main>
         </div>

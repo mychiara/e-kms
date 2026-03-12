@@ -8,6 +8,7 @@ const Auth = {
       id: localStorage.getItem("user_id"),
       name: localStorage.getItem("user_name"),
       role: localStorage.getItem("user_role"),
+      posyandu: localStorage.getItem("user_posyandu"),
     };
   },
 
@@ -48,6 +49,7 @@ const Auth = {
           localStorage.setItem("user_id", user.id);
           localStorage.setItem("user_name", user.nama_lengkap || user.username);
           localStorage.setItem("user_role", user.role);
+          localStorage.setItem("user_posyandu", user.posyandu || "");
 
           db.log("LOGIN", `User ${user.username} berhasil masuk.`);
           return true;

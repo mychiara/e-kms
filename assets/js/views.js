@@ -254,13 +254,16 @@ window.render_login = async () => {
             </div>
 
             <!-- RIGHT: SCHEDULE & INFO (Hidden on mobile) -->
-            <div class="schedule-side" style="flex: 1; background: var(--primary); padding: 5rem; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; min-width: 0;">
+            <div class="schedule-side" style="flex: 1; background: var(--primary); padding: 4rem; display: flex; flex-direction: column; position: relative; overflow-y: auto; min-width: 0;">
                 <!-- Decor -->
-                <div style="position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; background: rgba(37, 99, 235, 0.1); border-radius: 50%; blur: 60px;"></div>
+                <div style="position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; background: rgba(255, 255, 255, 0.05); border-radius: 50%; filter: blur(60px); pointer-events: none;"></div>
                 
+                <div style="position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem;">
+                        <!-- SCHEDULE COLUMN -->
                         <div>
-                            <h3 style="color:white; margin-bottom:1.2rem; font-size:1.1rem; text-transform:uppercase; letter-spacing:1px; display:flex; align-items:center; gap:0.5rem;">
-                                <i class="fas fa-calendar-alt"></i> Jadwal Mendatang
+                            <h3 style="color:white; margin-bottom:1.5rem; font-size:1.1rem; text-transform:uppercase; letter-spacing:2px; display:flex; align-items:center; gap:0.75rem; font-weight: 800; opacity: 0.9;">
+                                <i class="fas fa-calendar-alt" style="color: var(--accent);"></i> Jadwal Mendatang
                             </h3>
                             <div style="display: flex; flex-direction: column; gap: 1.2rem;">
                                 ${
@@ -268,36 +271,35 @@ window.render_login = async () => {
                                     ? jadwals
                                         .map((j) => {
                                           const date = new Date(j.tgl_kegiatan);
-                                          const isToday =
-                                            new Date().toLocaleDateString() ===
-                                            date.toLocaleDateString();
                                           return `
-                                    <div class="card" style="padding: 1.2rem; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border: none; border-radius: 16px; display: flex; align-items: center; gap: 1rem; transition: transform 0.3s ease; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
-                                        <div style="background: var(--primary); color: white; min-width: 60px; height: 60px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                                            <span style="font-size: 1.4rem; font-weight: 800; line-height: 1;">${date.getDate()}</span>
-                                            <span style="font-size: 0.7rem; font-weight: 600; text-transform: uppercase;">${date.toLocaleDateString("id-ID", { month: "short" })}</span>
+                                    <div class="card" style="padding: 1.25rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); color: white; border-radius: 16px; display: flex; align-items: center; gap: 1.25rem; transition: all 0.3s ease;">
+                                        <div style="background: white; color: var(--primary); min-width: 56px; height: 56px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                                            <span style="font-size: 1.2rem; font-weight: 800; line-height: 1;">${date.getDate()}</span>
+                                            <span style="font-size: 0.65rem; font-weight: 700; text-transform: uppercase;">${date.toLocaleDateString("id-ID", { month: "short" })}</span>
                                         </div>
                                         <div style="flex: 1; min-width: 0;">
-                                            <h4 style="margin: 0; color: var(--text-primary); font-size: 1rem; font-family: 'Outfit'; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${j.nama_kegiatan}</h4>
-                                            <div style="margin-top: 0.3rem; display: flex; flex-direction: column; gap: 0.1rem;">
-                                                <span style="font-size: 0.8rem; color: var(--text-secondary);">
-                                                    <i class="fas fa-map-marker-alt" style="color: var(--danger);"></i> ${j.tempat || "-"}
-                                                </span>
+                                            <div style="font-size: 0.65rem; color: rgba(255,255,255,0.6); font-weight: 700; text-transform: uppercase; margin-bottom: 0.2rem; display: flex; align-items: center; gap: 0.3rem;">
+                                                <i class="fas fa-user-edit" style="font-size: 0.6rem;"></i> ${j.author || "Admin"} &bull; ${j.posyandu || "Global"}
+                                            </div>
+                                            <h4 style="margin: 0; color: white; font-size: 0.95rem; font-family: 'Plus Jakarta Sans'; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${j.nama_kegiatan}</h4>
+                                            <div style="margin-top: 0.4rem; display: flex; align-items: center; gap: 0.5rem; opacity: 0.8; font-size: 0.8rem;">
+                                                <i class="fas fa-map-marker-alt" style="color: #fb7185;"></i> 
+                                                <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${j.tempat || "-"}</span>
                                             </div>
                                         </div>
                                     </div>
                                   `;
                                         })
                                         .join("")
-                                    : `<div style="color:rgba(255,255,255,0.6); font-style:italic;">Belum ada jadwal.</div>`
+                                    : `<div style="color:rgba(255,255,255,0.5); font-style:italic;">Belum ada jadwal.</div>`
                                 }
                             </div>
                         </div>
 
                         <!-- ANNOUNCEMENT COLUMN -->
                         <div>
-                            <h3 style="color:white; margin-bottom:1.2rem; font-size:1.1rem; text-transform:uppercase; letter-spacing:1px; display:flex; align-items:center; gap:0.5rem;">
-                                <i class="fas fa-bullhorn"></i> Pengumuman
+                            <h3 style="color:white; margin-bottom:1.5rem; font-size:1.1rem; text-transform:uppercase; letter-spacing:2px; display:flex; align-items:center; gap:0.75rem; font-weight: 800; opacity: 0.9;">
+                                <i class="fas fa-bullhorn" style="color: var(--accent);"></i> Pengumuman
                             </h3>
                             <div style="display: flex; flex-direction: column; gap: 1.2rem;">
                                 ${
@@ -305,30 +307,34 @@ window.render_login = async () => {
                                     ? pengumumans
                                         .map((p) => {
                                           return `
-                                    <div class="card" style="padding: 1.2rem; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); color: white; border-radius: 16px; transition: transform 0.3s ease; backdrop-filter: blur(5px);">
-                                        <h4 style="margin: 0 0 0.5rem 0; font-size: 1rem; font-family: 'Outfit'; font-weight: 700; color: #fff;">${p.judul}</h4>
-                                        <p style="font-size: 0.85rem; opacity: 0.9; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">${p.isi}</p>
-                                        <div style="margin-top: 0.8rem; font-size: 0.75rem; opacity: 0.7; font-weight: 600;">
+                                    <div class="card" style="padding: 1.25rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 16px; transition: all 0.3s ease; backdrop-filter: blur(5px);">
+                                        <div style="font-size: 0.65rem; color: rgba(255,255,255,0.5); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem;">
+                                            <i class="fas fa-id-card-clip" style="color: var(--accent);"></i> ${p.author || "Admin"} &bull; ${p.posyandu || "Global"}
+                                        </div>
+                                        <h4 style="margin: 0 0 0.6rem 0; font-size: 0.95rem; font-family: 'Plus Jakarta Sans'; font-weight: 700; color: #fff;">${p.judul}</h4>
+                                        <p style="font-size: 0.85rem; opacity: 0.8; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 0.8rem;">${p.isi}</p>
+                                        <div style="font-size: 0.75rem; opacity: 0.6; font-weight: 600; display: flex; align-items: center; gap: 0.4rem;">
                                             <i class="fas fa-clock"></i> ${p.created_at ? new Date(p.created_at).toLocaleDateString("id-ID") : "-"}
                                         </div>
                                     </div>
                                   `;
                                         })
                                         .join("")
-                                    : `<div style="color:rgba(255,255,255,0.6); font-style:italic;">Tidak ada pengumuman.</div>`
+                                    : `<div style="color:rgba(255,255,255,0.5); font-style:italic;">Tidak ada pengumuman.</div>`
                                 }
                             </div>
                         </div>
                     </div>
 
-                    <div style="margin-top: 4rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem;">
-                        <p style="color: white; opacity: 0.7; font-size: 0.85rem; letter-spacing: 1px;">KEMENTERIAN KESEHATAN REPUBLIK INDONESIA</p>
+                    <div style="margin-top: 4rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; opacity: 0.6;">
+                        <p style="color: white; font-size: 0.8rem; font-weight: 800; letter-spacing: 3px; margin: 0;">KEMENTERIAN KESEHATAN REPUBLIK INDONESIA</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div style="position: fixed; bottom: 1.5rem; width: 100%; text-align: center; z-index: 99; color: var(--text-secondary); font-size: 0.85rem; font-weight: 500;">
-            &copy; ${new Date().getFullYear()} Copyright by <a href="https://Masandigital.com" target="_blank" style="color: var(--primary); font-weight: 700; text-decoration: none;">Masandigital.com</a>
+        <div style="position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 100; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); padding: 0.75rem 2rem; border-radius: 50px; border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 10px 30px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 0.75rem; white-space: nowrap;">
+            <span style="color: var(--txt-muted); font-size: 0.85rem; font-weight: 600;">&copy; ${new Date().getFullYear()} Copyright by</span>
+            <a href="https://Masandigital.com" target="_blank" style="color: var(--accent); font-weight: 800; text-decoration: none; font-size: 0.85rem;">Masandigital.com</a>
         </div>
 
         <style>
@@ -400,32 +406,59 @@ window.render_dashboard = async () => {
         </div>
     `;
 
+  const user = Auth.getUser();
+  const isKader = user.role === "kader";
+  const posyanduFilter = isKader ? user.posyandu : null;
+  const cacheSuffix = isKader ? `_${user.posyandu}` : "";
+
   const fetchDashboardData = async () => {
     return await Promise.all([
-      cacheManager.get("dashboard_anak", () =>
-        db.query("SELECT status_aktif, jenis_kelamin, tgl_lahir FROM anak"),
-      ),
-      cacheManager.get("dashboard_users", () =>
-        db.query("SELECT role FROM users"),
-      ),
-      cacheManager.get("dashboard_alerts", () =>
-        db.query("SELECT is_read FROM alerts"),
-      ),
-      cacheManager.get("dashboard_weighings", () =>
-        db.query(
-          "SELECT weight, status_gizi, tgl_ukur, anak_id FROM penimbangan ORDER BY tgl_ukur DESC",
-        ),
-      ),
-      cacheManager.get("dashboard_jadwal", () =>
-        db.query(
-          "SELECT * FROM jadwal_posyandu WHERE tgl_kegiatan >= ? ORDER BY tgl_kegiatan ASC LIMIT 5",
-          [new Date().toLocaleDateString("en-CA")],
-        ),
-      ),
+      cacheManager.get(`dashboard_anak${cacheSuffix}`, () => {
+        let sql =
+          "SELECT status_aktif, jenis_kelamin, tgl_lahir, posyandu FROM anak";
+        return isKader
+          ? db.query(sql + " WHERE posyandu = ?", [posyanduFilter])
+          : db.query(sql);
+      }),
+      cacheManager.get(`dashboard_users${cacheSuffix}`, () => {
+        let sql = "SELECT role, posyandu FROM users";
+        return isKader
+          ? db.query(sql + " WHERE posyandu = ?", [posyanduFilter])
+          : db.query(sql);
+      }),
+      cacheManager.get(`dashboard_alerts${cacheSuffix}`, () => {
+        let sql = "SELECT is_read, posyandu FROM alerts";
+        return isKader
+          ? db.query(sql + " WHERE posyandu = ?", [posyanduFilter])
+          : db.query(sql);
+      }),
+      cacheManager.get(`dashboard_weighings${cacheSuffix}`, () => {
+        let sql =
+          "SELECT weight, status_gizi, tgl_ukur, anak_id, posyandu FROM penimbangan";
+        return isKader
+          ? db.query(sql + " WHERE posyandu = ? ORDER BY tgl_ukur DESC", [
+              posyanduFilter,
+            ])
+          : db.query(sql + " ORDER BY tgl_ukur DESC");
+      }),
+      cacheManager.get(`dashboard_jadwal${cacheSuffix}`, () => {
+        let sql = "SELECT * FROM jadwal_posyandu WHERE tgl_kegiatan >= ?";
+        let params = [new Date().toLocaleDateString("en-CA")];
+        if (isKader) {
+          sql += " AND posyandu = ? ORDER BY tgl_kegiatan ASC LIMIT 5";
+          params.push(posyanduFilter);
+        } else {
+          sql += " ORDER BY tgl_kegiatan ASC LIMIT 5";
+        }
+        return db.query(sql, params);
+      }),
+      cacheManager.get(`dashboard_posyandu${cacheSuffix}`, () => {
+        return db.query("SELECT * FROM wilayah_posyandu");
+      }),
     ]);
   };
 
-  const [resAnak, resUsers, resAlerts, resWeighings, resJadwal] =
+  const [resAnak, resUsers, resAlerts, resWeighings, resJadwal, resPosyandu] =
     await fetchDashboardData();
 
   const totalAnak = resAnak
@@ -482,6 +515,8 @@ window.render_dashboard = async () => {
     });
   }
 
+  const totalWilayah = resPosyandu ? resPosyandu.length : 0;
+
   content.innerHTML = `
         <div class="fade-in">
             <div class="grid-cols-4" style="margin-bottom: 2rem;">
@@ -509,6 +544,18 @@ window.render_dashboard = async () => {
                     <div class="stat-value">${allWeighings.length}</div>
                     <div class="stat-desc">Total Rekam Medis</div>
                 </div>
+                ${
+                  user.role == "admin"
+                    ? `
+                <div class="stat-card" style="border-left: 5px solid var(--secondary);">
+                    <div class="stat-icon-bg" style="background:rgba(124, 58, 237, 0.1); color:var(--secondary);"><i class="fas fa-map-location-dot"></i></div>
+                    <div class="stat-label">Total Wilayah</div>
+                    <div class="stat-value">${totalWilayah}</div>
+                    <div class="stat-desc">Posyandu Terdaftar</div>
+                </div>
+                `
+                    : ""
+                }
             </div>
 
             <div class="grid-stack grid-cols-2">
@@ -536,6 +583,9 @@ window.render_dashboard = async () => {
                                     <span style="font-weight: 600; text-transform: uppercase; font-size: 0.6rem;">${new Date(j.tgl_kegiatan).toLocaleDateString("id-ID", { month: "short" })}</span>
                                 </div>
                                 <div style="flex: 1;">
+                                    <div style="font-size: 0.7rem; color: var(--txt-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 0.2rem;">
+                                        ${j.author || "Admin"} &bull; ${j.posyandu || "Global"}
+                                    </div>
                                     <div style="font-weight: 700; color: var(--primary);">${j.nama_kegiatan}</div>
                                     <div style="font-size: 0.8rem; color: var(--txt-muted);"><i class="fas fa-map-marker-alt"></i> ${j.tempat}</div>
                                 </div>
@@ -731,13 +781,22 @@ window.render_anak_list = async () => {
   };
 
   // Fetch with caching for SUPER FAST loads
+  const user = Auth.getUser();
+  const isKader = user.role === "kader";
+  const cacheKey = isKader ? `anak_list_${user.posyandu}` : "anak_list";
+
   const anakList = await cacheManager.get(
-    "anak_list",
-    () =>
-      db.query(
-        "SELECT * FROM anak WHERE status_aktif = 1 ORDER BY created_at DESC",
-      ),
-    3 * 60 * 1000, // 3 minutes TTL (shorter for frequently updated data)
+    cacheKey,
+    () => {
+      let sql = "SELECT * FROM anak WHERE status_aktif = 1";
+      if (isKader) {
+        return db.query(sql + " AND posyandu = ? ORDER BY created_at DESC", [
+          user.posyandu,
+        ]);
+      }
+      return db.query(sql + " ORDER BY created_at DESC");
+    },
+    3 * 60 * 1000,
   );
 
   // Calculate age for each child
@@ -831,7 +890,7 @@ window.render_anak_list = async () => {
                                             <i class="fas fa-chart-line"></i>
                                         </a>
                                         <a href="#/anak_form?id=${a.id}" class="btn btn-outline btn-sm" style="width:34px; height:34px; padding:0; display:flex; align-items:center; justify-content:center; border-radius: 8px;" title="Edit">
-                                            <i class="fas fa-edit-user"></i>
+                                            <i class="fas fa-edit"></i>
                                         </a>
                                         ${
                                           Auth.getUser().role === "admin"
@@ -970,9 +1029,13 @@ window.deleteAnak = async (id, name) => {
       await db.execute("UPDATE anak SET status_aktif = 0 WHERE id = ?", [id]);
       db.log("DELETE_ANAK", `Menghapus data anak: ${name} (ID: ${id})`);
 
-      // Clear cache to refresh list
+      // Clear caches
       if (window.cacheManager) {
-        window.cacheManager.invalidate("anak_list");
+        const userPosyandu = Auth.getUser().posyandu;
+        cacheManager.invalidate(`dashboard_anak_${userPosyandu}`);
+        cacheManager.invalidate(`anak_list_${userPosyandu}`);
+        cacheManager.invalidate("dashboard_anak");
+        cacheManager.invalidate("anak_list");
       }
 
       alert("Data anak berhasil dihapus!");
@@ -986,6 +1049,7 @@ window.deleteAnak = async (id, name) => {
 
 // --- ANAK FORM (TAMBAH / EDIT) ---
 window.render_anak_form = async (id) => {
+  const user = Auth.getUser();
   const content = document.getElementById("page-content");
   content.innerHTML = `
         <div class="card" style="text-align:center; padding:3rem;">
@@ -995,6 +1059,14 @@ window.render_anak_form = async (id) => {
             <p style="color:var(--text-muted); font-size:1.1rem;">Menyiapkan formulir...</p>
         </div>
     `;
+
+  let posyandus = [];
+  try {
+    posyandus = await db.query(
+      "SELECT nama_posyandu FROM wilayah_posyandu ORDER BY nama_posyandu ASC",
+    );
+  } catch (e) {}
+  const params = { posyandus };
 
   // Helper function to format date to yyyy-MM-dd
   const formatDate = (dateStr) => {
@@ -1019,10 +1091,26 @@ window.render_anak_form = async (id) => {
     nama_ibu: "",
     alamat: "",
     berat_lahir: "",
+    posyandu: "",
   };
   let imunisasi = [];
   if (id) {
     data = await db.fetch("SELECT * FROM anak WHERE id = ?", [id]);
+
+    // Safety check for multi-tenancy
+    const userRole = Auth.getUser().role;
+    const userPosyandu = Auth.getUser().posyandu;
+    if (userRole === "kader" && data && data.posyandu !== userPosyandu) {
+      return (content.innerHTML = `
+          <div class="alert alert-danger" style="margin-top:2rem; padding:3rem; text-align:center;">
+              <i class="fas fa-lock" style="font-size:3rem; margin-bottom:1rem; display:block;"></i>
+              <h3>Akses Ditolak</h3>
+              <p>Anda tidak memiliki izin untuk mengubah data anak dari wilayah lain.</p>
+              <button onclick="history.back()" class="btn btn-primary" style="margin-top:1rem;">Kembali</button>
+          </div>
+       `);
+    }
+
     // Format date for HTML input
     if (data && data.tgl_lahir) {
       data.tgl_lahir = formatDate(data.tgl_lahir);
@@ -1335,6 +1423,21 @@ window.render_anak_form = async (id) => {
                             <label>Alamat Lengkap</label>
                             <textarea id="falamat" placeholder="Masukkan alamat lengkap dengan RT/RW, Kelurahan, Kecamatan..." style="min-height: 120px;">${data.alamat}</textarea>
                         </div>
+                        <div class="enhanced-input-group" id="posyandu_sec">
+                            <i class="fas fa-clinic-medical input-icon"></i>
+                            <label>Wilayah Posyandu</label>
+                            ${
+                              user.role === "kader"
+                                ? `<input type="text" id="fposyandu" value="${id ? data.posyandu : user.posyandu}" readonly style="background:#f1f5f9; cursor:not-allowed;">
+                                   <small style="color:var(--txt-muted);">Otomatis sesuai wilayah tugas Anda</small>`
+                                : `
+                                <select id="fposyandu">
+                                    <option value="">- Pilih Wilayah -</option>
+                                    ${(params.posyandus || []).map((p) => `<option value="${p.nama_posyandu}" ${data.posyandu == p.nama_posyandu ? "selected" : ""}>${p.nama_posyandu}</option>`).join("")}
+                                </select>
+                                `
+                            }
+                        </div>
                     </div>
 
                     <!-- ACTION BUTTONS -->
@@ -1534,6 +1637,7 @@ window.render_anak_form = async (id) => {
       document.getElementById("fpekerjaan_ibu").value || "", // pekerjaan_ibu
       document.getElementById("fgizi_ibu").value, // status_gizi_ibu
       document.getElementById("fhamil").value || "", // riwayat_kehamilan
+      document.getElementById("fposyandu").value || "", // posyandu
       new Date().toISOString().slice(0, 19).replace("T", " "), // created_at (Explicit)
     ];
 
@@ -1545,7 +1649,7 @@ window.render_anak_form = async (id) => {
         // UPDATE
         const updateVals = vals.slice(0, -1); // Remove created_at for update
         const q =
-          "UPDATE anak SET nama=?, nik=?, tgl_lahir=?, jenis_kelamin=?, nama_ibu=?, berat_lahir=?, alamat=?, status_aktif=?, panjang_lahir=?, anak_ke=?, status_bpjs=?, nik_ibu=?, usia_ibu=?, pendidikan_ibu=?, pekerjaan_ibu=?, status_gizi_ibu=?, riwayat_kehamilan=? WHERE id=?";
+          "UPDATE anak SET nama=?, nik=?, tgl_lahir=?, jenis_kelamin=?, nama_ibu=?, berat_lahir=?, alamat=?, status_aktif=?, panjang_lahir=?, anak_ke=?, status_bpjs=?, nik_ibu=?, usia_ibu=?, pendidikan_ibu=?, pekerjaan_ibu=?, status_gizi_ibu=?, riwayat_kehamilan=?, posyandu=? WHERE id=?";
 
         console.log("UPDATE Query:", q);
         console.log("UPDATE Params:", [...updateVals, currentId]);
@@ -1555,7 +1659,7 @@ window.render_anak_form = async (id) => {
       } else {
         // INSERT
         const q =
-          "INSERT INTO anak (nama, nik, tgl_lahir, jenis_kelamin, nama_ibu, berat_lahir, alamat, status_aktif, panjang_lahir, anak_ke, status_bpjs, nik_ibu, usia_ibu, pendidikan_ibu, pekerjaan_ibu, status_gizi_ibu, riwayat_kehamilan, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+          "INSERT INTO anak (nama, nik, tgl_lahir, jenis_kelamin, nama_ibu, berat_lahir, alamat, status_aktif, panjang_lahir, anak_ke, status_bpjs, nik_ibu, usia_ibu, pendidikan_ibu, pekerjaan_ibu, status_gizi_ibu, riwayat_kehamilan, posyandu, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         console.log("INSERT Query:", q);
         console.log("INSERT Params:", vals);
@@ -1601,6 +1705,13 @@ window.render_anak_form = async (id) => {
         '<i class="fas fa-check-circle"></i> ✅ Data Berhasil Disimpan!';
       submitBtn.style.background =
         "linear-gradient(135deg, #10B981 0%, #34D399 100%)";
+
+      // Clear relevant caches
+      const userPosyandu = Auth.getUser().posyandu;
+      cacheManager.invalidate(`dashboard_anak_${userPosyandu}`);
+      cacheManager.invalidate(`anak_list_${userPosyandu}`);
+      cacheManager.invalidate("dashboard_anak"); // Clear global too just in case
+      cacheManager.invalidate("anak_list");
 
       // Log activity
       db.log(
@@ -1648,9 +1759,18 @@ window.render_jadwal = async () => {
 
   let jadwals = [];
   try {
-    jadwals = await db.query(
-      "SELECT * FROM jadwal_posyandu ORDER BY tgl_kegiatan DESC",
-    );
+    const user = Auth.getUser();
+    const isKader = user.role === "kader";
+    let sql = "SELECT * FROM jadwal_posyandu";
+    let params = [];
+
+    if (isKader) {
+      sql += " WHERE posyandu = ?";
+      params.push(user.posyandu);
+    }
+
+    sql += " ORDER BY tgl_kegiatan DESC";
+    jadwals = await db.query(sql, params);
   } catch (e) {
     console.error("Error fetching jadwal:", e);
   }
@@ -1671,7 +1791,8 @@ window.render_jadwal = async () => {
                         <tr>
                             <th><i class="fas fa-calendar-day"></i> Tgl Kegiatan</th>
                             <th><i class="fas fa-tasks"></i> Nama Kegiatan</th>
-                            <th><i class="fas fa-map-marker-alt"></i> Tempat / Lokasi</th>
+                            <th><i class="fas fa-user-edit"></i> Petugas</th>
+                            <th><i class="fas fa-map-marker-alt"></i> Tempat</th>
                             <th><i class="fas fa-info-circle"></i> Status</th>
                             <th><i class="fas fa-cog"></i> Aksi</th>
                         </tr>
@@ -1702,6 +1823,10 @@ window.render_jadwal = async () => {
                                 <td>
                                     <strong>${j.nama_kegiatan}</strong>
                                     ${j.keterangan ? `<div style="font-size:0.8rem; color:var(--text-muted)">${j.keterangan}</div>` : ""}
+                                </td>
+                                <td style="font-size:0.85rem;">
+                                    <div style="font-weight:700;">${j.author || "Admin"}</div>
+                                    <div style="color:var(--text-muted); font-size:0.75rem;">${j.posyandu || "Global"}</div>
                                 </td>
                                 <td><i class="fas fa-map-marker-alt" style="color:var(--danger)"></i> ${j.tempat}</td>
                                 <td>${statusBadge}</td>
@@ -1788,9 +1913,10 @@ window.render_jadwal_form = async (id) => {
           [...vals, id],
         );
       } else {
+        const user = Auth.getUser();
         res = await db.execute(
-          "INSERT INTO jadwal_posyandu (nama_kegiatan, tgl_kegiatan, tempat, keterangan) VALUES (?, ?, ?, ?)",
-          vals,
+          "INSERT INTO jadwal_posyandu (nama_kegiatan, tgl_kegiatan, tempat, keterangan, author, posyandu) VALUES (?, ?, ?, ?, ?, ?)",
+          [...vals, user.name, user.posyandu || "Global"],
         );
       }
 
@@ -1852,6 +1978,7 @@ window.render_pengumuman = async () => {
                         <tr>
                             <th><i class="fas fa-clock"></i> Tgl Input</th>
                             <th><i class="fas fa-heading"></i> Judul</th>
+                            <th><i class="fas fa-user-check"></i> Petugas</th>
                             <th><i class="fas fa-align-left"></i> Isi</th>
                             <th><i class="fas fa-toggle-on"></i> Status</th>
                             <th><i class="fas fa-cog"></i> Aksi</th>
@@ -1877,6 +2004,10 @@ window.render_pengumuman = async () => {
                             <tr>
                                 <td>${date}</td>
                                 <td><strong>${p.judul}</strong></td>
+                                <td style="font-size:0.85rem;">
+                                    <div style="font-weight:700;">${p.author || "Admin"}</div>
+                                    <div style="color:var(--text-muted); font-size:0.75rem;">${p.posyandu || "Global"}</div>
+                                </td>
                                 <td style="max-width:300px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${p.isi}</td>
                                 <td><span class="badge ${p.status === "Aktif" ? "badge-success" : "badge-secondary"}">${p.status || "Aktif"}</span></td>
                                 <td>
@@ -1951,11 +2082,21 @@ window.render_pengumuman_form = async (id) => {
         );
         db.log("UPDATE_PENGUMUMAN", `Update pengumuman: ${vals.judul}`);
       } else {
+        const user = Auth.getUser();
         await db.execute(
-          "INSERT INTO pengumuman (judul, isi, status) VALUES (?, ?, ?)",
-          [vals.judul, vals.isi, vals.status],
+          "INSERT INTO pengumuman (judul, isi, status, author, posyandu) VALUES (?, ?, ?, ?, ?)",
+          [
+            vals.judul,
+            vals.isi,
+            vals.status,
+            user.name,
+            user.posyandu || "Global",
+          ],
         );
-        db.log("ADD_PENGUMUMAN", `Tambah pengumuman: ${vals.judul}`);
+        db.log(
+          "ADD_PENGUMUMAN",
+          `Tambah pengumuman: ${vals.judul} oleh ${user.name}`,
+        );
       }
       alert("Pengumuman berhasil disimpan!");
       window.location.hash = "#/pengumuman";
@@ -2208,6 +2349,20 @@ window.render_anak_detail = async (id) => {
   if (!anak)
     return (content.innerHTML =
       '<div class="alert alert-danger">Data anak tidak ditemukan.</div>');
+
+  // Multi-tenancy check
+  const user = Auth.getUser();
+  if (user.role === "kader" && anak.posyandu !== user.posyandu) {
+    return (content.innerHTML = `
+      <div class="alert alert-danger" style="padding: 3rem; text-align: center;">
+          <i class="fas fa-lock" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>
+          <h2 style="margin-bottom: 0.5rem;">Akses Ditolak</h2>
+          <p>Maaf, Anda tidak memiliki izin untuk melihat data anak dari wilayah <strong>${anak.posyandu || "-"}</strong>.<br>
+          Wilayah tugas Anda adalah: <strong>${user.posyandu}</strong></p>
+          <button onclick="history.back()" class="btn btn-primary" style="margin-top: 1.5rem;">Kembali</button>
+      </div>
+    `);
+  }
 
   // 2. Render Main Layout
   content.innerHTML = `
@@ -3136,7 +3291,7 @@ window.render_users = async () => {
             </div>
             <div class="table-responsive">
                 <table>
-                    <thead><tr><th>Nama / Username</th><th>Role</th><th>Aksi</th></tr></thead>
+                    <thead><tr><th>Nama / Username</th><th>Role</th><th>Wilayah</th><th>Aksi</th></tr></thead>
                     <tbody>
                         ${
                           users.length
@@ -3149,6 +3304,7 @@ window.render_users = async () => {
                                     <div style="font-size:0.8rem; color:var(--text-muted);">@${u.username}</div>
                                 </td>
                                 <td><span class="badge ${u.role == "admin" ? "badge-danger" : u.role == "kader" ? "badge-success" : "badge-info"}">${u.role}</span></td>
+                                <td><span style="font-size:0.9rem; font-weight:500;">${u.posyandu || "-"}</span></td>
                                 <td>
                                     <a href="#/user_form?id=${u.id}" class="btn btn-outline btn-sm"><i class="fas fa-edit"></i></a>
                                     ${u.username !== "admin" ? `<button onclick="window.deleteUser(${u.id})" class="btn btn-outline btn-sm" style="color:var(--danger)"><i class="fas fa-trash"></i></button>` : ""}
@@ -3157,7 +3313,7 @@ window.render_users = async () => {
                         `,
                                 )
                                 .join("")
-                            : '<tr><td colspan="3">Belum ada user.</td></tr>'
+                            : '<tr><td colspan="4">Belum ada user.</td></tr>'
                         }
                     </tbody>
                 </table>
@@ -3166,9 +3322,148 @@ window.render_users = async () => {
     `;
 };
 
+window.deleteUser = async (id) => {
+  if (confirm("Hapus user ini?")) {
+    await db.execute("DELETE FROM users WHERE id=?", [id]);
+    window.render_users();
+  }
+};
+
+// --- POSYANDU MANAGEMENT ---
+window.render_posyandu_list = async () => {
+  const content = document.getElementById("page-content");
+  content.innerHTML = '<div class="card">Memuat wilayah posyandu...</div>';
+
+  let list = [];
+  try {
+    list = await db.query(
+      "SELECT * FROM wilayah_posyandu ORDER BY nama_posyandu ASC",
+    );
+  } catch (e) {
+    console.error("Error posyandu list:", e);
+  }
+
+  content.innerHTML = `
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-map-location-dot" style="color:var(--secondary)"></i> Daftar Wilayah Posyandu</h3>
+                <a href="#/posyandu_form" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Tambah Wilayah</a>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead><tr><th>Nama Posyandu</th><th>Keterangan</th><th>Aksi</th></tr></thead>
+                    <tbody>
+                        ${
+                          list.length
+                            ? list
+                                .map(
+                                  (p) => `
+                            <tr>
+                                <td><div style="font-weight:700; color:var(--primary);">${p.nama_posyandu}</div></td>
+                                <td style="color:var(--text-muted); font-size:0.9rem;">${p.keterangan || "-"}</td>
+                                <td>
+                                    <a href="#/posyandu_form?id=${p.id}" class="btn btn-outline btn-sm"><i class="fas fa-edit"></i></a>
+                                    <button onclick="window.deletePosyandu(${p.id}, '${p.nama_posyandu}')" class="btn btn-outline btn-sm" style="color:var(--danger)"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `,
+                                )
+                                .join("")
+                            : '<tr><td colspan="3" style="text-align:center; padding:2rem;">Belum ada wilayah posyandu terdaftar.</td></tr>'
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+};
+
+window.render_posyandu_form = async (id) => {
+  const content = document.getElementById("page-content");
+  let data = { nama_posyandu: "", keterangan: "" };
+  if (id)
+    data = await db.fetch("SELECT * FROM wilayah_posyandu WHERE id = ?", [id]);
+
+  content.innerHTML = `
+        <div class="card form-card">
+            <div class="card-header"><h3 class="card-title">${id ? "Edit" : "Tambah"} Wilayah Posyandu</h3></div>
+            <form id="posyanduForm">
+                <div class="form-group">
+                    <label>Nama Posyandu</label>
+                    <input type="text" id="p_nama" value="${data.nama_posyandu}" required placeholder="Contoh: Melati 1 / Teratai A">
+                </div>
+                <div class="form-group">
+                    <label>Keterangan / Alamat Wilayah</label>
+                    <textarea id="p_ket" placeholder="Opsional: Keterangan wilayah tugas..." style="min-height:100px;">${data.keterangan || ""}</textarea>
+                </div>
+                <div style="margin-top:2rem; display:flex; gap:1rem;">
+                    <button type="button" onclick="history.back()" class="btn btn-outline" style="flex:1">Batal</button>
+                    <button type="submit" class="btn btn-primary" style="flex:2">Simpan Wilayah</button>
+                </div>
+            </form>
+        </div>
+    `;
+
+  document.getElementById("posyanduForm").onsubmit = async (e) => {
+    e.preventDefault();
+    const nm = document.getElementById("p_nama").value;
+    const kt = document.getElementById("p_ket").value;
+
+    try {
+      if (id) {
+        await db.execute(
+          "UPDATE wilayah_posyandu SET nama_posyandu=?, keterangan=? WHERE id=?",
+          [nm, kt, id],
+        );
+        db.log("EDIT_POSYANDU", `Edit wilayah: ${nm}`);
+      } else {
+        await db.execute(
+          "INSERT INTO wilayah_posyandu (nama_posyandu, keterangan) VALUES (?, ?)",
+          [nm, kt],
+        );
+        db.log("ADD_POSYANDU", `Tambah wilayah: ${nm}`);
+      }
+      window.location.hash = "#/posyandu_list";
+    } catch (err) {
+      alert("Gagal menyimpan: " + err.message);
+    }
+  };
+};
+
+window.deletePosyandu = async (id, name) => {
+  if (
+    confirm(
+      `Hapus wilayah "${name}"?\nPerhatian: Pastikan tidak ada User atau Anak yang masih terikat dengan wilayah ini.`,
+    )
+  ) {
+    try {
+      await db.execute("DELETE FROM wilayah_posyandu WHERE id=?", [id]);
+      db.log("DELETE_POSYANDU", `Hapus wilayah: ${name}`);
+      window.render_posyandu_list();
+    } catch (err) {
+      alert("Gagal menghapus: " + err.message);
+    }
+  }
+};
+
 window.render_user_form = async (id) => {
   const content = document.getElementById("page-content");
-  let data = { username: "", password: "", role: "kader", nama_lengkap: "" };
+  content.innerHTML = '<div class="card">Memuat data user...</div>';
+
+  let posyandus = [];
+  try {
+    posyandus = await db.query(
+      "SELECT nama_posyandu FROM wilayah_posyandu ORDER BY nama_posyandu ASC",
+    );
+  } catch (e) {}
+
+  let data = {
+    username: "",
+    password: "",
+    role: "kader",
+    nama_lengkap: "",
+    posyandu: "",
+  };
   if (id) data = await db.fetch("SELECT * FROM users WHERE id = ?", [id]);
 
   content.innerHTML = `
@@ -3195,6 +3490,14 @@ window.render_user_form = async (id) => {
                         <option value="orangtua" ${data.role == "orangtua" ? "selected" : ""}>Orang Tua (View Only)</option>
                     </select>
                 </div>
+                <div class="form-group" id="user_posyandu_group">
+                    <label>Wilayah Posyandu</label>
+                    <select id="u_posyandu">
+                        <option value="">- Pilih Wilayah -</option>
+                        ${posyandus.map((p) => `<option value="${p.nama_posyandu}" ${data.posyandu == p.nama_posyandu ? "selected" : ""}>${p.nama_posyandu}</option>`).join("")}
+                    </select>
+                    <small style="color:var(--text-muted);">Pilih wilayah tugas kader. Jika admin, bisa dikosongkan.</small>
+                </div>
                 <div style="margin-top:2rem;">
                     <button type="submit" class="btn btn-primary" style="width:100%">Simpan User</button>
                 </div>
@@ -3208,21 +3511,22 @@ window.render_user_form = async (id) => {
     const us = document.getElementById("u_user").value;
     const ps = document.getElementById("u_pass").value;
     const rl = document.getElementById("u_role").value;
+    const py = document.getElementById("u_posyandu").value;
 
     if (id) {
-      let q = "UPDATE users SET nama_lengkap=?, username=?, role=? WHERE id=?";
-      let p = [nm, us, rl, id];
+      let q =
+        "UPDATE users SET nama_lengkap=?, username=?, role=?, posyandu=? WHERE id=?";
+      let p = [nm, us, rl, py, id];
       if (ps) {
-        // If password provided, update it
         q =
-          "UPDATE users SET nama_lengkap=?, username=?, password=?, role=? WHERE id=?";
-        p = [nm, us, ps, rl, id];
+          "UPDATE users SET nama_lengkap=?, username=?, password=?, role=?, posyandu=? WHERE id=?";
+        p = [nm, us, ps, rl, py, id];
       }
       await db.execute(q, p);
     } else {
       await db.execute(
-        "INSERT INTO users (nama_lengkap, username, password, role) VALUES (?, ?, ?, ?)",
-        [nm, us, ps, rl],
+        "INSERT INTO users (nama_lengkap, username, password, role, posyandu) VALUES (?, ?, ?, ?, ?)",
+        [nm, us, ps, rl, py],
       );
     }
     window.location.hash = "#/users";
@@ -3242,9 +3546,18 @@ window.render_alerts = async () => {
   content.innerHTML = '<div class="card">Memuat notifikasi...</div>';
 
   // In a real app we'd join with Anak name, but simple fetch for now
-  const alerts = await db.query(
-    "SELECT a.*, k.nama FROM alerts a JOIN anak k ON a.anak_id = k.id ORDER BY a.created_at DESC",
-  );
+  const user = Auth.getUser();
+  const isKader = user.role === "kader";
+  let sql = "SELECT a.*, k.nama FROM alerts a JOIN anak k ON a.anak_id = k.id";
+  let params = [];
+
+  if (isKader) {
+    sql += " WHERE k.posyandu = ?";
+    params.push(user.posyandu);
+  }
+
+  sql += " ORDER BY a.created_at DESC";
+  const alerts = await db.query(sql, params);
 
   content.innerHTML = `
         <div class="card">
@@ -3297,21 +3610,36 @@ window.render_laporan = async () => {
   const currentMonth = now.getMonth() + 1; // 1-12
   const currentYear = now.getFullYear();
 
+  const user = Auth.getUser();
+  const isKader = user.role === "kader";
+
   // Fetch data with proper queries
-  const allAnak =
-    (await db.query("SELECT id FROM anak WHERE status_aktif=1")) || [];
+  let childSql = "SELECT id FROM anak WHERE status_aktif=1";
+  let childParams = [];
+  if (isKader) {
+    childSql += " AND posyandu = ?";
+    childParams.push(user.posyandu);
+  }
+  const allAnak = (await db.query(childSql, childParams)) || [];
   const S = allAnak.length; // Seluruh balita aktif
   const K = S; // Semua balita dianggap punya KMS
 
   // Get unique children who weighed this month
-  const thisMonthWeighings =
-    (await db.query(
-      "SELECT DISTINCT anak_id FROM penimbangan WHERE tgl_ukur >= ? AND tgl_ukur < ?",
-      [
-        `${currentYear}-${String(currentMonth).padStart(2, "0")}-01`,
-        `${currentYear}-${String(currentMonth === 12 ? 1 : currentMonth + 1).padStart(2, "0")}-01`,
-      ],
-    )) || [];
+  let weighSql = "SELECT DISTINCT p.anak_id FROM penimbangan p";
+  let weighParams = [
+    `${currentYear}-${String(currentMonth).padStart(2, "0")}-01`,
+    `${currentYear}-${String(currentMonth === 12 ? 1 : currentMonth + 1).padStart(2, "0")}-01`,
+  ];
+
+  if (isKader) {
+    weighSql +=
+      " JOIN anak k ON p.anak_id = k.id WHERE k.posyandu = ? AND p.tgl_ukur >= ? AND p.tgl_ukur < ?";
+    weighParams = [user.posyandu, ...weighParams];
+  } else {
+    weighSql += " WHERE p.tgl_ukur >= ? AND p.tgl_ukur < ?";
+  }
+
+  const thisMonthWeighings = (await db.query(weighSql, weighParams)) || [];
   const D = thisMonthWeighings.length; // Ditimbang bulan ini
 
   // Calculate N (Naik berat badan)

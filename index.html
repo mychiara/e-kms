@@ -4,12 +4,40 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>E-KMS Online | Posyandu Digital</title>
+    <!-- Resource Hints -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+
+    <!-- Fonts -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap"
+      media="print"
+      onload="this.media = 'all'"
+    />
+    <noscript
+      ><link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap"
+    /></noscript>
+
     <link rel="stylesheet" href="assets/css/style.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      media="print"
+      onload="this.media = 'all'"
     />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
       /* Loader styles */
       #loader {
@@ -61,14 +89,6 @@
         }
       }
 
-      /* Auth styles */
-      .auth-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        background: linear-gradient(135deg, #f8fafb 0%, #e8f4f1 100%);
-      }
     </style>
   </head>
   <body>
@@ -81,13 +101,17 @@
       <!-- Application will be injected here -->
     </div>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
     <!-- Core Scripts -->
-    <script src="assets/js/config.js"></script>
-    <script src="assets/js/cache-manager.js"></script>
-    <script src="assets/js/db.js"></script>
-    <script src="assets/js/auth.js"></script>
-    <script src="assets/js/router.js"></script>
-    <script src="assets/js/views.js"></script>
-    <script src="assets/js/app.js"></script>
+    <script defer src="assets/js/config.js"></script>
+    <script defer src="assets/js/cache-manager.js"></script>
+    <script defer src="assets/js/db.js"></script>
+    <script defer src="assets/js/auth.js"></script>
+    <script defer src="assets/js/router.js"></script>
+    <script defer src="assets/js/views.js"></script>
+    <script defer src="assets/js/app.js"></script>
   </body>
 </html>
